@@ -33,6 +33,7 @@ def train_model(df):
         "Xgboost":XGBRegressor()
     }
     
+    
     for i in range(len(list(models))):
         model=list(models.values())[i]
         model.fit(x_train_transformed,y_train)
