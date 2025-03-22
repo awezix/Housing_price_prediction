@@ -10,6 +10,13 @@ from sklearn.metrics import r2_score,mean_absolute_error,mean_squared_error
 from preprocessor import preprocess_data
 import pickle
 
+def performance_metrics(y_true,y_pred):
+    mae = mean_absolute_error(y_true,y_pred)
+    mse = mean_squared_error(y_true,y_pred)
+    rmse = np.sqrt(mse)
+    r2 = r2_score(y_true,y_pred)
+    return mae,mse,rmse,r2
+
 def train_model(df):
 
     x=df.drop("price_in_lakh",axis=1)
@@ -33,24 +40,40 @@ def train_model(df):
         "Xgboost":XGBRegressor()
     }
     
-    
-    for i in range(len(list(models))):
-        model=list(models.values())[i]
+    best_model={
+        'name':None,
+        'model':None,
+        'score':None
+    }
+
+    for name,model in models.items():
         model.fit(x_train_transformed,y_train)
         y_test_pred=model.predict(x_test_transformed)
-        
-        print(list(models.keys())[i])
+
+        mae,mse,rmse,r2=performance_metrics(y_test,y_test_pred)
+        print(name)
         print("model performance on testing set")
-        print("MAE:",mean_absolute_error(y_test,y_test_pred))
-        print("MSE:",mean_squared_error(y_test,y_test_pred))
-        print("RMSE:",np.sqrt(mean_squared_error(y_test,y_test_pred)))
-        print("R2 Score:",r2_score(y_test,y_test_pred))
+        print("MAE:",mae)
+        print("MSE:",mse)
+        print("RMSE:",rmse)
+        print("R2 Score:",r2)
         
         print("="*35)
         print("\n")
 
+        if best_model['score'] is None or r2 > best_model['score']:
+            best_model={
+                'name':name,
+                'model':model,
+                'score':r2
+            }
+        
+    if best_model['model']:
+        with open("models/model.pkl",'wb') as f:
+            pickle.dump(best_model["model"],f)
+            print(f'saved the best model {best_model["name"]}')
+
 if __name__ =="__main__":
     df=pd.read_csv("Datasets/cleaned_data.csv")
     train_model(df) 
-
 
