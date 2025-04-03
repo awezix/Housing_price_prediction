@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>input data</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+
+
+</head>
+<body>
+    <div class="login">
+        <h1>House Price Prediction</h1>
+        <form action="{{url_for('predict_price')}}" method="post">
+            <legend>Enter details to predict the price</legend>
+            <div class="form-grp">
+                <label class="form-label">BHK</label>
+                <select name="bhk" required>
+                    <option selected disabled value="">Select BHK</option>
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                    <option value="4">4</option>
+                    <option value="5">5</option>
+                    <option value="6">6</option>
+                </select>
+            </div>
+            <div class="form-grp">
+                <label class="form-label">House Type</label>
+                <select name="type" required>
+                    <option selected disabled value="">Select house Type</option>
+                    <option value="Apartment">Apartment</option>
+                    <option value="Studio Apartment">Studio Apartment</option>
+                    <option value="Independent House">Independent House</option>
+                    <option value="Villa">Villa</option>
+                </select>
+            </div>
+            <div class="form-grp">
+                <label class="form-label">Area in Sq.Feet</label>
+                <input type="number" name="area" placeholder="Enter Area in Sq.Feet" max="50000" min="50" required>
+            </div>
+            <div class="form-grp">
+                <label class="form-label">Region</label>
+                <input list="regions" name="region" required>
+                <datalist id="regions">
+
+                </datalist>
+                <script>
+                    const regions=['Mira Road East', 'Thane West', 'Dombivali', 'Kharghar',
+       'Kandivali East', 'Kalyan West', 'Ulwe', 'Panvel', 'Mulund West',
+       'Chembur', 'Kandivali West', 'Malad West', 'Virar', 'Kanjurmarg',
+       'Powai', 'Andheri East', 'Andheri West', 'Borivali East', 'Vikhroli',
+       'Taloja', 'Naigaon East', 'Borivali West', 'Ghatkopar East',
+       'Goregaon West', 'Malad East', 'Kamothe', 'Dahisar', 'Ambernath East',
+       'Bhayandar East', 'Goregaon East', 'Vasai', 'Wadala', 'Badlapur East',
+       'Bhiwandi', 'Bhandup West', 'Karjat', 'Jogeshwari West', 'Ghansoli',
+       'Santacruz East', 'Nala Sopara', 'Badlapur West', 'Kurla',
+       'Kalyan East', 'Koper Khairane', 'Airoli', 'Seawoods', 'Ambernath West',
+       'Neral', 'Sion', 'Sanpada', 'Shil Phata', 'Kalamboli', 'Mulund East',
+       'Karanjade', 'Boisar', 'Ghatkopar West', 'Palghar', 'Jogeshwari East',
+       'Nerul', 'Anjurdive', 'Thane East', 'Titwala', 'Bandra East',
+       'Ville Parle East', 'Bhayandar West', 'Dronagiri', 'Parel', 'Byculla',
+       'Deonar', 'Vashi', 'Lower Parel', 'Khopoli', 'Matunga', 'Nahur East',
+       'Rasayani', 'Bhandup East', 'Santacruz West', 'Ulhasnagar', 'Mahim',
+       'Bandra West', 'Girgaon', 'Belapur', 'Dadar West', 'Sewri',
+       'Bandra Kurla Complex', 'Ville Parle West', 'Diva', 'Dadar East',
+       'Agripada', 'Prabhadevi', 'Mazagaon', 'Khar', 'Worli', 'Colaba', 'Juhu',
+       'Mahalaxmi', 'Marine Lines'];
+       const datalist=document.getElementById('regions');
+       regions.forEach(region =>{
+       let option=document.createElement('option');
+       option.value=region;
+       datalist.appendChild(option);
+       });
+                </script>
+            </div>
+            <div class="form-grp">
+                <label class="form-label">Status</label>
+                <input type="radio" name="status" id="ready" value="Ready to move">
+                <label for="ready">Ready to move</label>
+                <input type="radio" name="status" id="construction" value="Under Construction">
+                <label for="construction">Under construction</label>
+            </div>
+            <div class="form-grp">
+                <label class="form-label">Age</label>
+                <select name="age" required>
+                    <option selected disabled value="">Select Age</option>
+                    <option value="New">New</option>
+                    <option value="Resale">Resale</option>
+                    <option value="Unknown">Unknown</option>
+                </select>
+            </div>
+            <div class="form-grp">
+                <button type="submit">Predict price</button>
+            </div>
+        </form>
+        <h2>The predicted house price is {{price}} lakhs</h2>
+        <h3>Price per square feet is {{per_sq_ft}} Rs</h3>
+    </div>
+    
+</body>
+</html>

@@ -12,18 +12,17 @@ def make_predictions(input_data):
 
     input_data_transformed=preprocessor.transform(input_data)
     predictions=model.predict(input_data_transformed)
-
-    return predictions
+    return predictions[0]    #only 3 digit after decimal
 
 if __name__ =="__main__":
     input=pd.DataFrame(
         {
             'bhk':[2],
             'type':['Apartment'],
-            'area':[750],
-            'region':['Vasai'],
-            'status':['Under Construction'],
-            'age':['New'],
+            'area':[800],
+            'region':['Thane West'],
+            'status':['Ready to move'],
+            'age':['Resale'],
         }
     )
     predict=make_predictions(input)
