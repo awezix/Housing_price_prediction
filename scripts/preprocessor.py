@@ -7,7 +7,7 @@ from sklearn.impute import SimpleImputer
 import pickle
 
 def preprocess_data(df):
-    df.columns = df.columns.str.strip().str.lower()
+    df.columns = df.columns.str.strip().str.lower()     #removing white space and lowercase
 
     numerical_features=["bhk","area"]
     categorical_feature=["type","region","status","age"]
